@@ -2,6 +2,7 @@
 library(data.table)
 library(ggplot2)
 
+
 # 导入Trucksim输出数据
 setwd(dir = "E:/R/MaWan/01ZongPoFenXi/PW")  # 设置工作目录
 kPWFileList <- list.files(pattern = "*.txt")  # 分析数据文件名
@@ -29,6 +30,7 @@ for(i in 1:length(kPWDataName)){  # 导入数据
   df.pw <- rbind(tmp.file2data, df.pw)
 }
 
+
 # 1.冲坡速度80，比功率6.0，坡度5.0，不同轴数vs坡长----
 df.expectedspeed80pw6.0grade5.0 <- df.pw[df.pw$Grade == "5.0",]
 
@@ -43,9 +45,19 @@ plot.expectedspeed80pw6.0grade5.0 <- ggplot(df.expectedspeed80pw6.0grade5.0,
   theme(legend.title = element_text(face = "bold", size = 10),
         legend.text = element_text(face = "bold", size = 10),
         axis.title = element_text(face = "bold", size = 11),
-        axis.text = element_text(face = "bold", size = 10))
+        axis.text = element_text(face = "bold", size = 10),
+        plot.title = element_text(hjust = 0.5))
 
 plot.expectedspeed80pw6.0grade5.0
+
+
+# 冲破速度80，比功率6.0，坡度5.0%，不同轴数货车稳定速度----
+tmpdf.lastspeedgrade5.0 <- subset(df.expectedspeed80pw6.0grade5.0,
+                                  df.expectedspeed80pw6.0grade5.0$Station%/%1 == 4500)
+
+df.lastspeedgrade5.0 <- tmpdf.lastspeedgrade5.0[!duplicated(tmpdf.lastspeedgrade5.0$Axles),]
+
+df.lastspeedgrade5.0
 
 
 # 2.冲坡速度60，比功率6.0，坡度5.5，不同轴数vs坡长----
@@ -67,7 +79,13 @@ plot.expectedspeed60pw6.0grade5.5 <- ggplot(df.expectedspeed60pw6.0grade5.5,
 plot.expectedspeed60pw6.0grade5.5
 
 
-df.expectedspeed60pw6.0grade5.5[df.expectedspeed60pw6.0grade5.5$Station%/%1==4500,]
+# 冲破速度60，比功率6.0，坡度5.5%，不同轴数货车稳定速度----
+tmpdf.lastspeedgrade5.5 <- subset(df.expectedspeed60pw6.0grade5.5,
+                                  df.expectedspeed60pw6.0grade5.5$Station%/%1 == 4500)
+
+df.lastspeedgrade5.5 <- tmpdf.lastspeedgrade5.5[!duplicated(tmpdf.lastspeedgrade5.5$Axles),]
+
+df.lastspeedgrade5.5
 
 
 
